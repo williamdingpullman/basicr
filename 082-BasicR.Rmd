@@ -1,7 +1,3 @@
-
-
-This section is about R coding.
-
 # apply, lapply, sapply
 
 ## apply
