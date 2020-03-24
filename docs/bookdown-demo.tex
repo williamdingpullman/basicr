@@ -120,7 +120,7 @@
 
 \title{R}
 \author{Bill Last Updated:}
-\date{22 March, 2020}
+\date{23 March, 2020}
 
 \begin{document}
 \frontmatter
@@ -284,10 +284,10 @@ lapply operates on lists. Thus, as we can see below, even if m\_trying is not a 
 
 \begin{verbatim}
 ##           [,1]       [,2]
-## [1,] 0.3288863 0.09318141
-## [2,] 0.4147421 0.51532348
-## [3,] 0.2788513 0.16093117
-## [4,] 0.6525776 0.49090981
+## [1,] 0.5715006 0.18031906
+## [2,] 0.3111623 0.96314857
+## [3,] 0.5261412 0.09350421
+## [4,] 0.5559436 0.50264512
 \end{verbatim}
 
 \begin{Shaded}
@@ -297,7 +297,7 @@ lapply operates on lists. Thus, as we can see below, even if m\_trying is not a 
 \end{Shaded}
 
 \begin{verbatim}
-##  num [1:4, 1:2] 0.3289 0.4147 0.2789 0.6526 0.0932 ...
+##  num [1:4, 1:2] 0.572 0.311 0.526 0.556 0.18 ...
 \end{verbatim}
 
 \begin{Shaded}
@@ -308,8 +308,8 @@ lapply operates on lists. Thus, as we can see below, even if m\_trying is not a 
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.32888628 0.41474214 0.27885130 0.65257757 0.09318141 0.51532348 0.16093117
-## [8] 0.49090981
+## [1] 0.57150060 0.31116229 0.52614124 0.55594361 0.18031906 0.96314857 0.09350421
+## [8] 0.50264512
 \end{verbatim}
 
 \begin{Shaded}
@@ -319,8 +319,66 @@ lapply operates on lists. Thus, as we can see below, even if m\_trying is not a 
 \end{Shaded}
 
 \begin{verbatim}
-##  num [1:8] 0.3289 0.4147 0.2789 0.6526 0.0932 ...
+##  num [1:8] 0.572 0.311 0.526 0.556 0.18 ...
 \end{verbatim}
+
+\hypertarget{glm-and-glim}{%
+\chapter{GLM and GLiM}\label{glm-and-glim}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data2<-}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(data2,}\KeywordTok{pnorm}\NormalTok{(data2),}\DataTypeTok{type =} \StringTok{"b"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b_}\DecValTok{1}\NormalTok{<-}\DecValTok{2}
+
+\NormalTok{x<-}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
+\NormalTok{y=b_}\DecValTok{1}\OperatorTok{*}\NormalTok{x}\OperatorTok{+}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(x,y)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data_}\DecValTok{1}\NormalTok{<-}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(y,x)) }
+
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{ggplot}\NormalTok{(data_}\DecValTok{1}\NormalTok{,}\KeywordTok{aes}\NormalTok{(x, y)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_classic}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-5-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x<-}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
+\NormalTok{y=b_}\DecValTok{1}\OperatorTok{*}\NormalTok{x}\OperatorTok{+}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
+\NormalTok{mu=}\KeywordTok{exp}\NormalTok{(y)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\KeywordTok{exp}\NormalTok{(y))}
+
+
+\NormalTok{u<-}\KeywordTok{runif}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
+\NormalTok{binary_Y<-}\KeywordTok{ifelse}\NormalTok{(mu}\OperatorTok{>}\NormalTok{u,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{data_}\DecValTok{2}\NormalTok{<-}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(binary_Y,x)) }
+
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{ggplot}\NormalTok{(data_}\DecValTok{2}\NormalTok{,}\KeywordTok{aes}\NormalTok{(x, binary_Y)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"glm"}\NormalTok{, }\DataTypeTok{method.args =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{family =} \StringTok{"binomial"}\NormalTok{), }
+              \DataTypeTok{se =} \OtherTok{FALSE}\NormalTok{)}\OperatorTok{+}\KeywordTok{theme_classic}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-5-4.pdf}
 
 \backmatter
   \bibliography{book.bib,packages.bib}

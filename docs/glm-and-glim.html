@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R</title>
+  <title>Chapter 3 GLM and GLiM | R</title>
   <meta name="description" content="The webpages are mainly about R." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R" />
+  <meta property="og:title" content="Chapter 3 GLM and GLiM | R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R" />
+  <meta name="twitter:title" content="Chapter 3 GLM and GLiM | R" />
   
   <meta name="twitter:description" content="The webpages are mainly about R." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="c.html"/>
 
-<link rel="next" href="apply-lapply-sapply.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -158,14 +158,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R</h1>
-<p class="author"><em>Bill Last Updated:</em></p>
-<p class="date"><em>23 March, 2020</em></p>
-</div>
-<div id="my-section" class="section level1 unnumbered">
-<h1>Preface: Motivation</h1>
-<p>All the notes I have done here are about R. While I have tried my best, probably there are still some typos and errors. Please feel free to let me know in case you find one. Thank you!</p>
+<div id="glm-and-glim" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> GLM and GLiM</h1>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">data2&lt;-<span class="kw">seq</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="kw">plot</span>(data2,<span class="kw">pnorm</span>(data2),<span class="dt">type =</span> <span class="st">&quot;b&quot;</span>)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">b_<span class="dv">1</span>&lt;-<span class="dv">2</span></a>
+<a class="sourceLine" id="cb30-2" title="2"></a>
+<a class="sourceLine" id="cb30-3" title="3">x&lt;-<span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb30-4" title="4">y=b_<span class="dv">1</span><span class="op">*</span>x<span class="op">+</span><span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb30-5" title="5"><span class="kw">plot</span>(x,y)</a>
+<a class="sourceLine" id="cb30-6" title="6"></a>
+<a class="sourceLine" id="cb30-7" title="7">data_<span class="dv">1</span>&lt;-<span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(y,x)) </a>
+<a class="sourceLine" id="cb30-8" title="8"></a>
+<a class="sourceLine" id="cb30-9" title="9"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">ggplot</span>(data_<span class="dv">1</span>,<span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">x&lt;-<span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb32-2" title="2">y=b_<span class="dv">1</span><span class="op">*</span>x<span class="op">+</span><span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb32-3" title="3">mu=<span class="kw">exp</span>(y)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(y))</a>
+<a class="sourceLine" id="cb32-4" title="4"></a>
+<a class="sourceLine" id="cb32-5" title="5"></a>
+<a class="sourceLine" id="cb32-6" title="6">u&lt;-<span class="kw">runif</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb32-7" title="7">binary_Y&lt;-<span class="kw">ifelse</span>(mu<span class="op">&gt;</span>u,<span class="dv">1</span>,<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb32-8" title="8">data_<span class="dv">2</span>&lt;-<span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(binary_Y,x)) </a>
+<a class="sourceLine" id="cb32-9" title="9"></a>
+<a class="sourceLine" id="cb32-10" title="10"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb32-11" title="11"><span class="kw">ggplot</span>(data_<span class="dv">2</span>,<span class="kw">aes</span>(x, binary_Y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-13" title="13"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), </a>
+<a class="sourceLine" id="cb32-14" title="14">              <span class="dt">se =</span> <span class="ot">FALSE</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</a></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
 
 </div>
             </section>
@@ -173,8 +199,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
+<a href="c.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="apply-lapply-sapply.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -205,7 +231,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/083_GLM_and_GLiM.Rmd",
 "text": "Edit"
 },
 "history": {
