@@ -1,0 +1,43 @@
+# Tidyverse
+
+## Slice
+
+https://dplyr.tidyverse.org/reference/slice.html
+
+
+```{R}
+mtcars
+
+library(tidyverse)
+slice(mtcars,1L)
+
+slice(mtcars,n())
+
+```
+
+
+Group_by just group row with same values (w.r.t a certain column) together. It does not reduce row number. 
+
+## Group_by
+
+```{R}
+by_cyl<-group_by(mtcars,cyl)
+
+by_cyl
+
+nrow(mtcars)
+nrow(by_cyl)
+
+```
+
+
+## Filter
+
+You can also use __filter__ to do the same job as __slice__ . The only difference is that you need to provide a variable name. 
+
+```{R}
+
+filter(mtcars, row_number()==1L)
+
+filter(mtcars, row_number()==n())
+```

@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="c.html"/>
-
+<link rel="next" href="tidyverse.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -138,6 +138,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="c.html"><a href="c.html"><i class="fa fa-check"></i><b>2</b> C</a></li>
 <li class="chapter" data-level="3" data-path="glm-and-glim.html"><a href="glm-and-glim.html"><i class="fa fa-check"></i><b>3</b> GLM and GLiM</a></li>
+<li class="chapter" data-level="4" data-path="tidyverse.html"><a href="tidyverse.html"><i class="fa fa-check"></i><b>4</b> Tidyverse</a><ul>
+<li class="chapter" data-level="4.1" data-path="tidyverse.html"><a href="tidyverse.html#slice"><i class="fa fa-check"></i><b>4.1</b> Slice</a></li>
+<li class="chapter" data-level="4.2" data-path="tidyverse.html"><a href="tidyverse.html#group_by"><i class="fa fa-check"></i><b>4.2</b> Group_by</a></li>
+<li class="chapter" data-level="4.3" data-path="tidyverse.html"><a href="tidyverse.html#filter"><i class="fa fa-check"></i><b>4.3</b> Filter</a></li>
+</ul></li>
 <li class="divider"></li>
 <li></li>
 
@@ -172,25 +177,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb30-7" title="7">data_<span class="dv">1</span>&lt;-<span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(y,x)) </a>
 <a class="sourceLine" id="cb30-8" title="8"></a>
 <a class="sourceLine" id="cb30-9" title="9"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.6.1</code></pre>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">ggplot</span>(data_<span class="dv">1</span>,<span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb31-3" title="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">ggplot</span>(data_<span class="dv">1</span>,<span class="kw">aes</span>(x, y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-3" title="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">x&lt;-<span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb32-2" title="2">y=b_<span class="dv">1</span><span class="op">*</span>x<span class="op">+</span><span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb32-3" title="3">mu=<span class="kw">exp</span>(y)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(y))</a>
-<a class="sourceLine" id="cb32-4" title="4"></a>
-<a class="sourceLine" id="cb32-5" title="5"></a>
-<a class="sourceLine" id="cb32-6" title="6">u&lt;-<span class="kw">runif</span>(<span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb32-7" title="7">binary_Y&lt;-<span class="kw">ifelse</span>(mu<span class="op">&gt;</span>u,<span class="dv">1</span>,<span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb32-8" title="8">data_<span class="dv">2</span>&lt;-<span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(binary_Y,x)) </a>
-<a class="sourceLine" id="cb32-9" title="9"></a>
-<a class="sourceLine" id="cb32-10" title="10"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb32-11" title="11"><span class="kw">ggplot</span>(data_<span class="dv">2</span>,<span class="kw">aes</span>(x, binary_Y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb32-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb32-13" title="13"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), </a>
-<a class="sourceLine" id="cb32-14" title="14">              <span class="dt">se =</span> <span class="ot">FALSE</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">x&lt;-<span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb33-2" title="2">y=b_<span class="dv">1</span><span class="op">*</span>x<span class="op">+</span><span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb33-3" title="3">mu=<span class="kw">exp</span>(y)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(y))</a>
+<a class="sourceLine" id="cb33-4" title="4"></a>
+<a class="sourceLine" id="cb33-5" title="5"></a>
+<a class="sourceLine" id="cb33-6" title="6">u&lt;-<span class="kw">runif</span>(<span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb33-7" title="7">binary_Y&lt;-<span class="kw">ifelse</span>(mu<span class="op">&gt;</span>u,<span class="dv">1</span>,<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb33-8" title="8">data_<span class="dv">2</span>&lt;-<span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(binary_Y,x)) </a>
+<a class="sourceLine" id="cb33-9" title="9"></a>
+<a class="sourceLine" id="cb33-10" title="10"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb33-11" title="11"><span class="kw">ggplot</span>(data_<span class="dv">2</span>,<span class="kw">aes</span>(x, binary_Y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-12" title="12"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-13" title="13"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>, <span class="dt">method.args =</span> <span class="kw">list</span>(<span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>), </a>
+<a class="sourceLine" id="cb33-14" title="14">              <span class="dt">se =</span> <span class="ot">FALSE</span>)<span class="op">+</span><span class="kw">theme_classic</span>()</a></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
 
 </div>
@@ -199,8 +205,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="c.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="c.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tidyverse.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
